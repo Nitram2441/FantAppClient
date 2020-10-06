@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.os.AsyncTask;
 import android.util.Patterns;
 
 import com.example.fantapp.data.LoginRepository;
@@ -29,16 +30,26 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(final String username, final String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
+        new AsyncTask<Void, Void, Result>(){
+            @Override
+            protected Result doInBackground(Void... voids){
+                return loginRepository.login(username, password);
+            }
+
+            @Override
+            protected void onPostExecute(Result result){
+                if(result instanceof Result.Success){
+                    LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+                    loginResult.setValue(new LoginResult(new LoggedInUserView(data.getToken())));
+                } else {
+                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                }
+            }
+        }.execute();
+
     }
 
     public void loginDataChanged(String username, String password) {
