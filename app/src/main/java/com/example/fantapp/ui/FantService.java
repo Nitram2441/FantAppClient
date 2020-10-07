@@ -66,12 +66,16 @@ public class FantService implements Response.ErrorListener {
                 }, this));
     }
     //might have to make ListingList or figure out a way to just use Listing
+
     public void loadListings(Callback<List<Listing>> onPostExecute, Response.ErrorListener onError){
+        System.out.println("1");
         requestQueue.add(new SecuredJsonArrayRequest(Request.Method.GET, "http://169.254.8.28:8080/WebappTwo/api/listings/getlistings", null,
                 response -> {
                                 List<Listing> result = new ArrayList<>();
                                 try{
                                     for(int i = 0; i < response.length(); i++){
+                                        Listing listing = new Listing(response.getJSONObject(i));
+                                        System.out.println(listing.getTitle());
                                         result.add(new Listing(response.getJSONObject(i)));
                                     }
                                 } catch (JSONException e){
@@ -82,8 +86,29 @@ public class FantService implements Response.ErrorListener {
                 },onError));
     }
 
+
+/*
+    public void loadListings(){
+        requestQueue.add(new SecuredJsonArrayRequest(Request.Method.GET, "http://169.254.8.28:8080/WebappTwo/api/listings/getlistings", null,
+                response -> {
+                    List<Listing> result = new ArrayList<>();
+                    try{
+                        for(int i = 0; i < response.length(); i++){
+                            Listing listing = new Listing(response.getJSONObject(i));
+                            System.out.println(listing.getTitle());
+                            result.add(new Listing(response.getJSONObject(i)));
+                        }
+                    } catch (JSONException e){
+                        //onError.onErrorResponse(new VolleyError(e));
+                    }
+                    //onPostExecute.onPostExecute(result);
+
+                },null));
+    }
+*/
     protected Map<String, String> getHeaders(){
         HashMap<String, String> result = new HashMap<>();
+        System.out.println("Token: " + token);
         result.put("Authorization", "Bearer " + token);
         return result;
     }
