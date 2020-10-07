@@ -23,6 +23,10 @@ public class Listing {
         }
     }
 
+    public Listing(){
+
+    }
+
     public int getId() {
         return listingId;
     }

@@ -46,6 +46,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
         Listing listing = getListings().get(position);
         System.out.println("Listing id: "+listing.getId());
         holder.text.setText(listing.title);
+        holder.desc.setText(listing.description);
+
     }
 
     @Override
@@ -60,11 +62,15 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
 
     class ListingViewHolder extends RecyclerView.ViewHolder{
         TextView text;
+        TextView desc;
+
 
         public ListingViewHolder(View view){
             super(view);
             view.setOnClickListener(v -> listener.onClick(getAdapterPosition()));
             this.text = view.findViewById(R.id.text);
+            this.desc = view.findViewById(R.id.desc);
+
         }
 
     }

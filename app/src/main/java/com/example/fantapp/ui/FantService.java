@@ -87,25 +87,8 @@ public class FantService implements Response.ErrorListener {
     }
 
 
-/*
-    public void loadListings(){
-        requestQueue.add(new SecuredJsonArrayRequest(Request.Method.GET, "http://169.254.8.28:8080/WebappTwo/api/listings/getlistings", null,
-                response -> {
-                    List<Listing> result = new ArrayList<>();
-                    try{
-                        for(int i = 0; i < response.length(); i++){
-                            Listing listing = new Listing(response.getJSONObject(i));
-                            System.out.println(listing.getTitle());
-                            result.add(new Listing(response.getJSONObject(i)));
-                        }
-                    } catch (JSONException e){
-                        //onError.onErrorResponse(new VolleyError(e));
-                    }
-                    //onPostExecute.onPostExecute(result);
 
-                },null));
-    }
-*/
+
     protected Map<String, String> getHeaders(){
         HashMap<String, String> result = new HashMap<>();
         System.out.println("Token: " + token);
@@ -128,6 +111,7 @@ public class FantService implements Response.ErrorListener {
             return FantService.this.getHeaders();
         }
     }
+
 
     class SecuredJsonArrayRequest extends JsonArrayRequest{
         public SecuredJsonArrayRequest(int method, String url, @Nullable JSONArray jsonRequest,
