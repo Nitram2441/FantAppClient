@@ -68,7 +68,7 @@ public class FantService implements Response.ErrorListener {
     //might have to make ListingList or figure out a way to just use Listing
 
     public void loadListings(Callback<List<Listing>> onPostExecute, Response.ErrorListener onError){
-        System.out.println("1");
+        //System.out.println("1");
         requestQueue.add(new SecuredJsonArrayRequest(Request.Method.GET, "http://169.254.8.28:8080/WebappTwo/api/listings/getlistings", null,
                 response -> {
                                 List<Listing> result = new ArrayList<>();

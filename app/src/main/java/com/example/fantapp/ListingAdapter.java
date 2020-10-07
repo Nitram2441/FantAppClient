@@ -1,5 +1,6 @@
 package com.example.fantapp;
 
+import android.util.JsonToken;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,11 +44,13 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
     @Override
     public void onBindViewHolder(@NonNull ListingViewHolder holder, int position){
         Listing listing = getListings().get(position);
-        holder.text.setText("TEST TEKST :-)");
+        System.out.println("Listing id: "+listing.getId());
+        holder.text.setText(listing.title);
     }
 
     @Override
     public int getItemCount(){
+        System.out.println("Listing list size: " + getListings().size());
         return getListings().size();
     }
 
