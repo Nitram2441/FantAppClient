@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.fantapp.Listing;
 import com.example.fantapp.User;
@@ -55,6 +56,10 @@ public class FantService implements Response.ErrorListener {
         return user;
     }
 
+    public String getToken(){
+        return token;
+    }
+
     public void loadUser(){
         requestQueue.add(new SecuredJsonObjectRequest(Request.Method.GET, "http://169.254.8.28:8080/WebappTwo/api/auth/currentuser", null,
                 response -> {
@@ -87,7 +92,9 @@ public class FantService implements Response.ErrorListener {
     }
 
 
-
+    public void addToRequestQueue(StringRequest request){
+        requestQueue.add(request);
+    }
 
     protected Map<String, String> getHeaders(){
         HashMap<String, String> result = new HashMap<>();
@@ -110,6 +117,8 @@ public class FantService implements Response.ErrorListener {
         public Map<String, String> getHeaders(){
             return FantService.this.getHeaders();
         }
+
+
     }
 
 
