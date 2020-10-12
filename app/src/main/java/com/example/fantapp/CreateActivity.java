@@ -22,6 +22,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +39,7 @@ public class CreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //FantService.getInstance().testMe();
 /*
         final EditText titleEditText = findViewById(R.id.editTextTextPersonName);
         String titleText = titleEditText.toString();
@@ -55,8 +59,8 @@ public class CreateActivity extends AppCompatActivity {
         FantService.getInstance().addToRequestQueue(jsonObjRequest);
     }
 
-    public static final String BOUNDARY = "ANY_STRING";
-
+    public static final String BOUNDARY = "ghur9ehioghr9e84u9whforuig8e";
+/*
     private String createPostBody(Map<String, String> params) {
         StringBuilder sb = new StringBuilder();
         for (String key : params.keySet()) {
@@ -64,14 +68,15 @@ public class CreateActivity extends AppCompatActivity {
                 sb.append("\r\n" + "--" + BOUNDARY + "\r\n");
                 sb.append("Content-Disposition: form-data; name=\""
                         + key + "\"" + "\r\n\r\n");
-                sb.append(params.get(key));
+                sb.append(params.get(key) + "\n");
+
             }
         }
 
         System.out.println(sb.toString());
         return sb.toString();
     }
-
+*/
     StringRequest jsonObjRequest = new StringRequest(Request.Method.POST,
             "http://169.254.8.28:8080/WebappTwo/api/listings/createwithpicture",
             new Response.Listener<String>() {
@@ -92,15 +97,13 @@ public class CreateActivity extends AppCompatActivity {
     }) {
 
 
-
         @Override
-        public byte[] getBody() {
+        protected Map<String, String> getParams(){
             Map<String,String> params = new HashMap<>();
-            params.put("title", "titleeee");
-            params.put("description", "descriptioooon");
+            params.put("title", "title");
+            params.put("description", "description");
             params.put("price", "300");
-            String postBody = createPostBody(params);
-            return postBody.getBytes();
+            return params;
         }
 
         @Override
@@ -111,6 +114,4 @@ public class CreateActivity extends AppCompatActivity {
             return headers;
         }
     };
-
-
 }

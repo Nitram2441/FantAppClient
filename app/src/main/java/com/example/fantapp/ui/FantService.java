@@ -1,6 +1,7 @@
 package com.example.fantapp.ui;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -13,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.fantapp.Listing;
+import com.example.fantapp.MainActivity;
 import com.example.fantapp.User;
 
 import org.json.JSONArray;
@@ -91,16 +93,14 @@ public class FantService implements Response.ErrorListener {
                 },onError));
     }
 
-
-    public void addToRequestQueue(StringRequest request){
-        requestQueue.add(request);
-    }
-
     protected Map<String, String> getHeaders(){
         HashMap<String, String> result = new HashMap<>();
         System.out.println("Token: " + token);
         result.put("Authorization", "Bearer " + token);
         return result;
+    }
+    public void addToRequestQueue(StringRequest request){
+        requestQueue.add(request);
     }
 
     public interface Callback<Result>{
