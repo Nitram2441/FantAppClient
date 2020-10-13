@@ -2,6 +2,7 @@ package com.example.fantapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -33,34 +34,53 @@ public class CreateActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    String titleText;
+    String descriptionText;
+    String priceNumberString;
+    int priceNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //FantService.getInstance().testMe();
-/*
+
         final EditText titleEditText = findViewById(R.id.editTextTextPersonName);
-        String titleText = titleEditText.toString();
+
         final EditText descriptionEditText = findViewById(R.id.editTextTextMultiLine);
-        String descriptionText = descriptionEditText.toString();
+
         final EditText priceEditText = findViewById(R.id.editTextNumber);
-        String priceNumberString = priceEditText.toString();
-        int priceNumber = Integer.parseInt(priceNumberString);
+
         final Button createListingButton = findViewById(R.id.button);
 
-        Listing listing = new Listing();
-        listing.setTitle(titleText);
-        listing.setPrice(priceNumber);
-        listing.setDescription(descriptionText);
-*/
-
-        //FantService.getInstance().addToRequestQueue(jsonObjRequest);
         Listing listing = new Listing();
         listing.setPrice(300);
         listing.setDescription("testDescription");
         listing.setTitle("testTitle");
+
+        createListingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendListing(listing);
+            }
+        });
+
+
+
+
+    }
+    /*
+    private void collectData(){
+        titleText = titleEditText.toString();
+        descriptionText = descriptionEditText.toString();
+        priceNumberString = priceEditText.toString();
+        priceNumber = Integer.parseInt(priceNumberString);
+    }
+
+     */
+
+    private void sendListing(Listing listing){
         new PostMessageTask(listings -> {
 
             System.out.println(listing.getTitle());
@@ -89,6 +109,7 @@ public class CreateActivity extends AppCompatActivity {
         return sb.toString();
     }
 */
+/*
     StringRequest jsonObjRequest = new StringRequest(Request.Method.POST,
             "http://169.254.8.28:8080/WebappTwo/api/listings/createwithpicture",
             new Response.Listener<String>() {
@@ -126,4 +147,6 @@ public class CreateActivity extends AppCompatActivity {
             return headers;
         }
     };
+
+ */
 }
