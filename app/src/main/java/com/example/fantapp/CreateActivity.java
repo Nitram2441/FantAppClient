@@ -56,7 +56,19 @@ public class CreateActivity extends AppCompatActivity {
         listing.setDescription(descriptionText);
 */
 
-        FantService.getInstance().addToRequestQueue(jsonObjRequest);
+        //FantService.getInstance().addToRequestQueue(jsonObjRequest);
+        Listing listing = new Listing();
+        listing.setPrice(300);
+        listing.setDescription("testDescription");
+        listing.setTitle("testTitle");
+        new PostMessageTask(listings -> {
+
+            System.out.println(listing.getTitle());
+        }, this::onException).execute(listing);
+    }
+
+    protected void onException(Throwable throwable){
+
     }
 
     public static final String BOUNDARY = "ghur9ehioghr9e84u9whforuig8e";

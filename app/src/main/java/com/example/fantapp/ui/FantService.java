@@ -21,6 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,10 @@ import java.util.Map;
 
 public class FantService implements Response.ErrorListener {
     static FantService SINGELTON;
+
+    public static final String IP = "169.254.8.28";
+    public static final String APIURL = "http://" + IP + ":8080/WebappTwo/api/";
+    public static final String CREATE_LISTING_URL = APIURL + "listings/createwithpicture";
 
     User user;
 
@@ -47,6 +54,13 @@ public class FantService implements Response.ErrorListener {
         this.token = token;
         this.requestQueue = Volley.newRequestQueue(context);
         loadUser();
+    }
+
+    public HttpURLConnection getSecureConnection(String url) throws IOException{
+        HttpURLConnection result = (HttpURLConnection) new URL(url).openConnection();
+        result.setRequestProperty("Authorization", "Bearer " + token);
+        result.setConnectTimeout(3000);
+        return result;
     }
 
     @Override
