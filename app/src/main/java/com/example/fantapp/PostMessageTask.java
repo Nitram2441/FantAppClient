@@ -41,7 +41,6 @@ public class PostMessageTask extends AbstractAsyncTask<Listing, Void, List<Listi
         bw.write(CRLF);
         bw.write(CRLF);
         bw.write(value);
-        bw.write(CRLF);
         bw.flush();
     }
 
@@ -67,7 +66,9 @@ public class PostMessageTask extends AbstractAsyncTask<Listing, Void, List<Listi
                 //addFormField(bw,"message", msg.getText());
 
                 addFormField(bw, "title", msg.getTitle());
+                bw.write(CRLF);
                 addFormField(bw, "description", msg.getDescription());
+                bw.write(CRLF);
                 addFormField(bw, "price", Integer.toString(msg.getPrice()));
 
 
