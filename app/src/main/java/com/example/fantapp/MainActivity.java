@@ -26,8 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListingAdapter adapter = new ListingAdapter();
+
     private RecyclerView recyclerView;
+    ListingAdapter adapter;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
+        adapter = new ListingAdapter();
         FantService.getInstance().loadListings(adapter::setListings, System.out::println);
         // Add the following lines to create RecyclerView
 

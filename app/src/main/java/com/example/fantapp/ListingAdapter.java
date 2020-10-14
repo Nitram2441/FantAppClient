@@ -44,6 +44,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
     @NonNull
     @Override
     public ListingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+        //LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listings, parent, false);
         return new ListingViewHolder(view);
     }
@@ -52,6 +53,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
     public void onBindViewHolder(@NonNull ListingViewHolder holder, int position){
         Listing listing = getListings().get(position);
         System.out.println("Listing id: "+listing.getId());
+        System.out.println("onBindViewHolder");
         holder.text.setText(listing.title);
         holder.desc.setText(listing.description);
 
