@@ -1,12 +1,18 @@
 package com.example.fantapp;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.example.fantapp.ui.FantService;
+import com.example.fantapp.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -21,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     ListingAdapter adapter = new ListingAdapter();
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -53,13 +59,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-/*
+
+        FantService.getInstance().loadListings(adapter::setListings, System.out::println);
+        // Add the following lines to create RecyclerView
+
+
         adapter.setOnClickListener(position -> System.out.println("Open Listing #" + position));
         recyclerView = findViewById(R.id.listings);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         FantService.getInstance().loadListings(adapter::setListings, System.out::println);
-*/
+
     }
 
     @Override
@@ -67,7 +77,35 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         getMenuInflater().inflate(R.menu.options_menu, menu);
-        return true;
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                System.out.println("Search text: " + query);
+               // startActivity(new Intent(MainActivity.this, TestActivity.class));
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == R.id.search){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

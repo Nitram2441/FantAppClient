@@ -5,20 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingViewHolder> {
+public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingViewHolder> implements Filterable {
     OnClickListener listener = position -> {};
     List<Listing> listings;
+    List<Listing> listingsListAll;
 
     public ListingAdapter(){
         this.listings = new ArrayList<>();
+        this.listingsListAll = new ArrayList<>(listings);
     }
 
     public List<Listing> getListings(){
@@ -56,6 +63,38 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingV
         return getListings().size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<Listing> filteredList = new ArrayList<>();
+            if(constraint.toString().isEmpty()){
+                filteredList.addAll(listingsListAll);
+            }
+            else{
+                for (Listing listing: listingsListAll){
+                    if(listing.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredList.add(listing);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            listings.clear();
+            listings.addAll((Collection<? extends Listing>) results.values);
+            notifyDataSetChanged();
+        }
+    };
     interface OnClickListener {
         void onClick(int Position);
     }

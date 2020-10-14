@@ -23,6 +23,7 @@
     <string name="title_activity_create">CreateActivity</string>
 
     <string name="search_title">Search Title</string>
+    <string name="search_hint">Search Hint</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
